@@ -1,4 +1,9 @@
 # charliemacuject
+This project interacts with the Macuject organisation in two key ways:
+1. Pulls the data locally onto the VM using`Psycopg` as a driver for PostgreSQL in Python.
+2. Pushes output (such as CSV files, tables, and figures) to the Macuject Google Drive using the Google Drive API.
+
+## How to set up Psycopg as driver for PostgreSQL
 
 ## How to set up the Google Drive API
 Go the appropriate project in the Google Developer Console in GCP.
