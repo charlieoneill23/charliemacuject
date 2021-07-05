@@ -3,10 +3,33 @@ This project interacts with the Macuject organisation in two key ways:
 1. Pulls the data locally onto the VM using`Psycopg` as a driver for PostgreSQL in Python.
 2. Pushes output (such as CSV files, tables, and figures) to the Macuject Google Drive using the Google Drive API.
 
-## How to set up Psycopg as driver for PostgreSQL
+## How to set up `Psycopg` as driver for PostgreSQL
 _What is PostgreSQL?_ PostgreSQL is a powerful, open source object-relational database system that uses and extends the SQL language combined with many features that safely store and scale the most complicated data workloads. In addition to being free and open source, PostgreSQL is highly extensible. For example, you can define your own data types, build out custom functions, even write code from different programming languages without recompiling your database.
 
-_What is Psycopg?_ Psycopg is the most popular PostgreSQL database adapter for the Python programming language. Many Python types are supported out-of-the-box and adapted to matching PostgreSQL data types; adaptation can be extended and customized thanks to a flexible objects adaptation system.
+_What is Psycopg?_ Psycopg is the most popular PostgreSQL database adapter for the Python programming language. Many Python types are supported out-of-the-box and adapted to matching PostgreSQL data types; adaptation can be extended and customised thanks to a flexible objects adaptation system.
+
+### Installing and using `Psycopg`
+This README will cover several key aspects of using `Psycopg`:
+* Connecting to the PostgreSQL database server
+* Creating new PostgreSQL tables in Python
+* Inserting data into the PostgreSQL table in Python
+* Updating data in the PostgreSQL table in Python 
+* Transaction – show you how to perform transactions in Python.
+* Querying data from the PostgreSQL tables
+* Calling a PostgreSQL function in Python
+* Calling a PostgreSQL stored procedure in Python
+* Handling PostgreSQL BLOB data in Python
+* Deleting data from PostgreSQL tables in Python
+
+#### Connecting to the PostgreSQL database server
+Install the package:
+```{python}
+pip install psycopg2
+```
+Log in to the PostgreSQL database server using any client tool such as pgAdmin or psql. Use the following statement to create a new database named suppliers in the PostgreSQL database server.
+```{python}
+CREATE DATABASE suppliers;
+```
 
 ## How to set up the Google Drive API
 Go the appropriate project in the Google Developer Console in GCP.
