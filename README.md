@@ -4,6 +4,9 @@ This project interacts with the Macuject organisation in two key ways:
 2. Pushes output (such as CSV files, tables, and figures) to the Macuject Google Drive using the Google Drive API.
 
 ## How to set up Psycopg as driver for PostgreSQL
+_What is PostgreSQL?_ PostgreSQL is a powerful, open source object-relational database system that uses and extends the SQL language combined with many features that safely store and scale the most complicated data workloads. In addition to being free and open source, PostgreSQL is highly extensible. For example, you can define your own data types, build out custom functions, even write code from different programming languages without recompiling your database.
+
+_What is Psycopg?_ Psycopg is the most popular PostgreSQL database adapter for the Python programming language. Many Python types are supported out-of-the-box and adapted to matching PostgreSQL data types; adaptation can be extended and customized thanks to a flexible objects adaptation system.
 
 ## How to set up the Google Drive API
 Go the appropriate project in the Google Developer Console in GCP.
