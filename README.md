@@ -22,17 +22,11 @@ Then enter your login credentials. Check that the `macuject-prod` has the addon 
 ### Heroku Postgres
 You can confirm the names and values of your app’s config vars with the `heroku config` command. In particular, we need the `DATABASE_URL` config var. This contains the URL your app uses to access the database.
 
-Heroku recommends running Postgres locally to ensure parity between environments. There are several pre-packaged installers for installing PostgreSQL in your local environment. Once Postgres is installed and you can connect, you’ll need to export the `DATABASE_URL` environment variable for your app to connect to it when running locally:
+Then run the following commands to locally replicate the latest production database:
 ```
-$ export DATABASE_URL=postgres://$(whoami)
+heroku pg:backups:capture --app macuject-prod
+heroku pg:backups:download --app macuject-prod
 ```
-`psql` is the native PostgreSQL interactive terminal and is used to execute queries and issue commands to the connected database. To establish a psql session with your remote database, use `heroku pg:psql`. If you have more than one database, specify the database to connect to (just the colour works as a shorthand) as the first argument to the command (the database located at `DATABASE_URL` is used by default). For example, `heroku pg:psql grey`.
-
-`pg:pull` can be used to pull remote data from a Heroku Postgres database to a database on your local machine. The command looks like this:
-```
-$ heroku pg:pull HEROKU_POSTGRESQL_MAGENTA mylocaldb --app sushi
-```
-This command creates a new local database named `mylocaldb` and then pulls data from the database at `DATABASE_URL` from the app `sushi`. 
 
 ## How to set up `Psycopg` as driver for PostgreSQL
 _What is PostgreSQL?_ PostgreSQL is a powerful, open source object-relational database system that uses and extends the SQL language combined with many features that safely store and scale the most complicated data workloads. In addition to being free and open source, PostgreSQL is highly extensible. For example, you can define your own data types, build out custom functions, even write code from different programming languages without recompiling your database.
