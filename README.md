@@ -6,7 +6,18 @@ This project interacts with the Macuject organisation in two key ways:
 ## Installing and connecting to Heroku Postgres
 Heroku Postgres is a managed SQL database service provided directly by Heroku.
 
-### Installing Heroku
+### Installing Heroku CLI
+Open up a terminal, and install the CLI:
+```
+curl https://cli-assets.heroku.com/install.sh | sh
+```
+Check the version installed by entering `heroku --version`.
+
+Because the GCP notebook won't allow you to open a different window to login, you need to login through the terminal.
+```
+heroku login -i
+```
+Then enter your login credentials. Check that the `macuject-prod` has the addon `postgresql-asymmetrical-30305` by typing `heroku addons`.
 
 ### Heroku Postgres
 Heroku recommends running Postgres locally to ensure parity between environments. There are several pre-packaged installers for installing PostgreSQL in your local environment. Once Postgres is installed and you can connect, you’ll need to export the `DATABASE_URL` environment variable for your app to connect to it when running locally:
