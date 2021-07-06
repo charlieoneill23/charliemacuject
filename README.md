@@ -20,6 +20,8 @@ heroku login -i
 Then enter your login credentials. Check that the `macuject-prod` has the addon `postgresql-asymmetrical-30305` by typing `heroku addons`.
 
 ### Heroku Postgres
+You can confirm the names and values of your app’s config vars with the `heroku config` command. In particular, we need the `DATABASE_URL` config var. This contains the URL your app uses to access the database.
+
 Heroku recommends running Postgres locally to ensure parity between environments. There are several pre-packaged installers for installing PostgreSQL in your local environment. Once Postgres is installed and you can connect, you’ll need to export the `DATABASE_URL` environment variable for your app to connect to it when running locally:
 ```
 $ export DATABASE_URL=postgres://$(whoami)
