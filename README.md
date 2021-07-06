@@ -1,7 +1,25 @@
 # charliemacuject
 This project interacts with the Macuject organisation in two key ways:
-1. Pulls the data locally onto the VM using`Psycopg` as a driver for PostgreSQL in Python.
+1. Pulls the data locally onto the VM using `Psycopg` as a driver for PostgreSQL in Python. This uses the Heroku database which you will need to have access to.
 2. Pushes output (such as CSV files, tables, and figures) to the Macuject Google Drive using the Google Drive API.
+
+## Installing and connecting to Heroku Postgres
+Heroku Postgres is a managed SQL database service provided directly by Heroku.
+
+### Installing Heroku
+
+### Heroku Postgres
+Heroku recommends running Postgres locally to ensure parity between environments. There are several pre-packaged installers for installing PostgreSQL in your local environment. Once Postgres is installed and you can connect, you’ll need to export the `DATABASE_URL` environment variable for your app to connect to it when running locally:
+```
+$ export DATABASE_URL=postgres://$(whoami)
+```
+`psql` is the native PostgreSQL interactive terminal and is used to execute queries and issue commands to the connected database. To establish a psql session with your remote database, use `heroku pg:psql`. If you have more than one database, specify the database to connect to (just the colour works as a shorthand) as the first argument to the command (the database located at `DATABASE_URL` is used by default). For example, `heroku pg:psql grey`.
+
+`pg:pull` can be used to pull remote data from a Heroku Postgres database to a database on your local machine. The command looks like this:
+```
+$ heroku pg:pull HEROKU_POSTGRESQL_MAGENTA mylocaldb --app sushi
+```
+This command creates a new local database named `mylocaldb` and then pulls data from the database at `DATABASE_URL` from the app `sushi`. 
 
 ## How to set up `Psycopg` as driver for PostgreSQL
 _What is PostgreSQL?_ PostgreSQL is a powerful, open source object-relational database system that uses and extends the SQL language combined with many features that safely store and scale the most complicated data workloads. In addition to being free and open source, PostgreSQL is highly extensible. For example, you can define your own data types, build out custom functions, even write code from different programming languages without recompiling your database.
