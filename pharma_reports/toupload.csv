@@ -1,0 +1,2 @@
+,study_period,num_patients,num_eyes,total_visits,"initiation_drug(L,E,A)"
+0,"(Timestamp('2007-01-11 00:00:00'), Timestamp('2021-12-01 00:00:00'))",373,744,22811,"[0.616, 0.367, 0.017]"
