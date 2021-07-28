@@ -1,0 +1,7 @@
+,mean_adherence,adherence_variation,percentage_late,percentage_early,MAFL,MAFE,adherence_year1,adherence_year2,mean_vision,time_above_baseline,peak_visual_improvement,overall_visual_change,baseline,gender,age,visits,ID
+0,1.0,0.0,0.0,0.0,1,1,1.0,1.0,46.6667,366,10.0,13.6667,0.4,Male,82,3,35
+1,1.0,0.0,0.0,0.0,1,1,1.0,1.0,55.5556,0,0.0,-11.1111,0.6667,Male,90,3,36
+2,1.0,0.0,0.0,0.0,1,1,1.0,1.0,52.2222,394,26.6667,19.2222,0.4,Female,98,3,40
+3,1.0,0.0,0.0,0.0,1,1,1.0,1.0,100.0,0,0.0,0.0,1.0,Female,78,3,57
+4,1.0,0.0,0.0,0.0,1,1,1.0,1.0,90.0,310,20.0,20.3333,0.8,Male,82,4,68
+5,1.0,0.0,0.0,0.0,1,1,1.0,1.0,85.0,70,20.0,6.6667,0.8,Female,83,4,76
