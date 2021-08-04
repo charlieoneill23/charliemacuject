@@ -1,2 +1,2 @@
-,Start,End,Num_Patients,TotalVisits,LucentisInit%,EyleaInit%,AvastinInit%
-0,2008-02-12,2021-12-06,186,6292,50.6,46.0,3.4000000000000004
+,Start,End,Num_Patients,Num_Eyes,TotalVisits,LucentisInit%,EyleaInit%,AvastinInit%
+0,2016-01-07,2021-12-01,273,544,11752,63.4,34.4,2.1999999999999997
