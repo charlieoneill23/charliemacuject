@@ -4,6 +4,15 @@ Pharma reports can be grouped into two general categories:
 1. nAMD reports that focus on traditional treatment statistics.
 2. DME reports which are subject to dirtier and more heteregeneous data.
 
+List of files:
+| File                | Description                                     |
+|---------------------|-------------------------------------------------|
+| `dme.ipynb`          | The exploratory analysis of the DME (extra ML). |
+| `DMEAudit.ipynb`      | Generates DMEAudit report.                      |
+| `DoctorAudit.ipynb`   | Generated nAMD report (basic statistics).       |
+| `automated_plots.R`   | Generates plots for both nAMD and DME reports.  |
+| `clients_secret.json` | Stores the OAuth credentials for PyDrive.       |
+
 ## nAMD reports
 The process for generating an nAMD audit report for a doctor is:
 1. Open up the script written in [DoctorAudit.](pharma_reports/DoctorAudit.ipynb)
