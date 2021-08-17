@@ -8,6 +8,7 @@ The doctors we currently have are:
 | Dr Devinder Chauhan (Boronia) | `devchau_bor.csv` |
 | Dr Eric Mayer                 | `ericmayer.csv`   |
 | Dr Brendan Vote (Launceston)  | `brendanvote.csv` |
+| Dr Alex Tan                   | `alextan.csv`     |
 
 This data consists of individual patient visits for each doctor. The data is thus longitudinal.
 
