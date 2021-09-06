@@ -1,0 +1,47 @@
+id,CreatedDate,Laterality,visual_acuity,InjToday
+0,22/2/17,Left,76,
+0,9/3/17,Left,76,Avastin
+0,22/3/17,Left,76,None
+0,11/4/17,Left,76,Lucentis
+0,9/5/17,Left,76,Lucentis
+0,6/6/17,Left,76,Lucentis
+0,4/7/17,Left,76,Lucentis
+0,22/8/17,Left,70,Lucentis
+0,19/9/17,Left,70,
+0,24/10/17,Left,70,Lucentis
+0,21/11/17,Left,70,
+0,9/1/18,Left,70,Lucentis
+0,6/2/18,Left,76,
+0,6/3/18,Left,70,Lucentis
+0,3/4/18,Left,70,Lucentis
+0,18/2/19,Left,70,
+5,25/11/15,Right,76,
+5,19/10/16,Right,76,
+5,22/3/17,Right,76,
+5,5/10/17,Right,70,
+5,24/5/18,Right,76,
+5,8/8/18,Right,76,
+5,4/9/18,Right,70,Lucentis
+5,5/12/18,Right,70,
+5,23/5/19,Right,70,
+5,7/8/19,Right,76,
+5,7/11/19,Right,76,Lucentis
+5,7/11/19,Right,,Lucentis
+5,10/12/19,Right,65,Lucentis
+5,7/1/20,Right,70,Lucentis
+5,4/2/20,Right,65,Lucentis
+5,2/3/20,Right,76,Lucentis
+7,28/8/14,Right,94,
+7,24/9/14,Right,94,
+7,27/10/14,Right,94,None
+7,29/12/15,Right,,
+7,15/1/16,Right,80,No Injection
+7,12/2/16,Right,85,Avastin
+7,26/2/16,Right,,Avastin
+7,24/3/16,Right,89,Avastin
+7,22/4/16,Right,94,No Injection
+7,20/5/16,Right,94,Avastin
+7,17/6/16,Right,94,No Injection
+7,22/7/16,Right,94,No Injection
+7,26/8/16,Right,94,No Injection
+7,23/9/16,Right,89,No Injection
