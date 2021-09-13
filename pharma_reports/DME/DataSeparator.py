@@ -76,6 +76,21 @@ class DataSeparator:
             df = df[df['Drug'] != 'Brolucizumab']
         return df
 
+    def patient_dataframes(self, drop_drug_na=False):
+        df_list = self.get_dataframes()
+        df = df_list[-1]
+        id_list = df.id.unique()
+        pdf_list = []
+        for eye in id_list:
+            pdf = df[df.id == eye]
+            if drop_drug_na:
+                pdf.dropna(subset=['Drug'], inplace=True)
+                pdf = pdf[(pdf.Drug != 'None') & (pdf.Drug != 'No Injection')]
+                pdf = pdf[pdf.Drug != '0']
+                pdf_list.append(pdf)
+            else: pdf._list.append(pdf)
+        return pdf_list
+
     def get_dataframes(self):
         """
         Produces a list of dataframes based on df_list segmentation query.

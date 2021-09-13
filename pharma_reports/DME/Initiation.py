@@ -11,20 +11,29 @@ class Initiation(DataSeparator):
         self.general_path = '/Users/charlesoneill/DataspellProjects/charliemacuject/pharma_reports/DME'
 
     def initiation_drug(self):
-        df_list = DataSeparator.get_dataframes(self)
-        df = df_list[-1]
-        id_list = df.id.unique()
         initiation_list = []
-        for eye in id_list:
-            pdf = df[df.id == eye]
-            pdf.dropna(subset=['Drug'], inplace=True)
-            pdf = pdf[(pdf.Drug != 'None') & (pdf.Drug != 'No Injection')]
-            pdf = pdf[pdf.Drug != '0']
+        pdf_list = DataSeparator.patient_dataframes(self, drop_drug_na=True)
+        for pdf in pdf_list:
             drugs = pdf.Drug.to_list()
             if len(drugs) > 0:
                 initiation_list.append(drugs[0])
         return Counter(initiation_list), len(initiation_list)
 
+    def initiation_steroid_vegf(self):
+        antiVEGF_list = ['Lucentis', 'Eylea', 'Avastin', 'None']
+        steroid_list = ['Ozurdex', 'Triesence', 'Kenalog', 'Kenacort', 'IVTA', 'None']
+        avgf_count, steroid_count = 0, 0
+        pdf_list = DataSeparator.patient_dataframes(self, drop_drug_na=True)
+        for pdf in pdf_list:
+            drugs = pdf.Drug.to_list()
+            if len(drugs) > 0:
+                if drugs[0] in antiVEGF_list: avgf_count+=1
+                if drugs[0] in steroid_list: steroid_count+=1
+        total = avgf_count + steroid_count
+        return (avgf_count/total), (steroid_count/total)
+
+
+
 if __name__ == "__main__":
-    obj = Initiation('all', '/devchau.csv')
-    print(obj.initiation_drug())
+    obj = Initiation('all', '/brendanvote.csv')
+    print(obj.initiation_steroid_vegf())
