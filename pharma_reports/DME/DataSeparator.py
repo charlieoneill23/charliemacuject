@@ -83,12 +83,13 @@ class DataSeparator:
         pdf_list = []
         for eye in id_list:
             pdf = df[df.id == eye]
-            if drop_drug_na:
-                pdf.dropna(subset=['Drug'], inplace=True)
-                pdf = pdf[(pdf.Drug != 'None') & (pdf.Drug != 'No Injection')]
-                pdf = pdf[pdf.Drug != '0']
-                pdf_list.append(pdf)
-            else: pdf._list.append(pdf)
+            if len(pdf) > 0:
+                if drop_drug_na:
+                    pdf.dropna(subset=['Drug'], inplace=True)
+                    pdf = pdf[(pdf.Drug != 'None') & (pdf.Drug != 'No Injection')]
+                    pdf = pdf[pdf.Drug != '0']
+                    pdf_list.append(pdf)
+                else: pdf._list.append(pdf)
         return pdf_list
 
     def get_dataframes(self):
