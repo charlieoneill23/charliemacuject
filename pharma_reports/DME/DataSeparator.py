@@ -80,7 +80,7 @@ class DataSeparator:
         df_list = self.get_dataframes()
         df = df_list[-1]
         id_list = df.id.unique()
-        pdf_list = []
+        lst = []
         for eye in id_list:
             pdf = df[df.id == eye]
             if len(pdf) > 0:
@@ -88,9 +88,10 @@ class DataSeparator:
                     pdf.dropna(subset=['Drug'], inplace=True)
                     pdf = pdf[(pdf.Drug != 'None') & (pdf.Drug != 'No Injection')]
                     pdf = pdf[pdf.Drug != '0']
-                    pdf_list.append(pdf)
-                else: pdf._list.append(pdf)
-        return pdf_list
+                    lst.append(pdf)
+                else:
+                    lst.append(pdf)
+        return lst
 
     def get_dataframes(self):
         """

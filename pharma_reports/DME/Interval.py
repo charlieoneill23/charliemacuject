@@ -5,6 +5,7 @@ from datetime import date
 import statistics
 import warnings
 warnings.filterwarnings('ignore')
+import statsmodels.stats.api as sms
 
 class Interval(DataSeparator):
     """
@@ -69,44 +70,48 @@ class Interval(DataSeparator):
         return mean_list, std_list
 
     def ext_patterns(self):
-        df_list = self.interval_all()
-        df = df_list[-1]
-        id_list = df.id.unique()
         inj_ext, inj_ext_time, actual_ext = [], [], []
-        for eye in id_list:
-            pdf = df[df.id == eye]
-            pdf.admission_date = pd.to_datetime(pdf.admission_date, dayfirst=True)
-            pdf.sort_values(by=['admission_date'], inplace=True)
+        pdf_list = DataSeparator.patient_dataframes(self)
+        for pdf in pdf_list:
+            pdf.dropna(subset=['NextInt'], inplace=True)
+            pdf.NextInt = pd.to_numeric(pdf.NextInt)
+            pdf = pdf[pdf.NextInt < 13]
             for i in range(len(pdf)-1):
-                if pdf.Interval.iloc[i+1] > pdf.Interval.iloc[i] and i != 0:
+                if pdf.NextInt.iloc[i+1] > pdf.NextInt.iloc[i] and i != 0:
                     inj_ext.append(i+1)
                     end = pd.to_datetime(pdf.admission_date.iloc[i+1], dayfirst=True)
                     start = pd.to_datetime(pdf.admission_date.iloc[0], dayfirst=True)
                     ext_time = (end - start).days / 7
                     inj_ext_time.append(ext_time)
-                    actual_ext.append(pdf.Interval.iloc[i+1] - pdf.Interval.iloc[i])
+                    actual_ext.append(pdf.NextInt.iloc[i+1] - pdf.NextInt.iloc[i])
                     break
         return inj_ext, inj_ext_time, actual_ext
 
     def red_patterns(self):
-        df_list = self.interval_all()
-        df = df_list[-1]
-        id_list = df.id.unique()
-        inj_ext, inj_ext_time, actual_red = [], [], []
-        for eye in id_list:
-            pdf = df[df.id == eye]
-            pdf.admission_date = pd.to_datetime(pdf.admission_date, dayfirst=True)
-            pdf.sort_values(by=['admission_date'], inplace=True)
+        inj_red, inj_red_time, actual_red = [], [], []
+        pdf_list = DataSeparator.patient_dataframes(self)
+        for pdf in pdf_list:
+            pdf.dropna(subset=['NextInt'], inplace=True)
+            pdf.NextInt = pd.to_numeric(pdf.NextInt)
+            pdf = pdf[pdf.NextInt < 13]
             for i in range(len(pdf)-1):
-                if pdf.Interval.iloc[i+1] < pdf.Interval.iloc[i] and i!=0:
-                    inj_ext.append(i+1)
-                    end = pd.to_datetime(pdf.admission_date.iloc[i+1], dayfirst=True)
-                    start = pd.to_datetime(pdf.admission_date.iloc[0], dayfirst=True)
-                    ext_time = (end - start).days / 7
-                    inj_ext_time.append(ext_time)
-                    actual_red.append(pdf.Interval.iloc[i] - pdf.Interval.iloc[i+1])
+                if pdf.NextInt.iloc[i+1] < pdf.NextInt.iloc[i] and i!=0:
+                    inj_red.append(i+1)
+                    end = pd.to_datetime(pdf.admission_date.iloc[i+1])
+                    start = pd.to_datetime(pdf.admission_date.iloc[0])
+                    red_time = (end - start).days / 7
+                    inj_red_time.append(red_time)
+                    actual_red.append(pdf.NextInt.iloc[i] - pdf.NextInt.iloc[i+1])
                     break
-        return inj_ext, inj_ext_time, actual_red
+        return inj_red, inj_red_time, actual_red
+
+    def actual_ext_red(self):
+        _, _, actual_ext = self.ext_patterns()
+        _, _, actual_red = self.red_patterns()
+        a = sms.DescrStatsW(actual_ext).tconfint_mean()
+        b = sms.DescrStatsW(actual_red).tconfint_mean()
+        print(np.mean(actual_ext), (a[1]-a[0])/2, np.median(actual_ext))
+        print(np.mean(actual_red), (b[1]-b[0])/2, np.median(actual_red))
 
     def results_table(self):
         """
@@ -123,18 +128,19 @@ class Interval(DataSeparator):
 
     def ext_red_results(self):
         ext_red = ['Extension', 'Reduction']
-        inj_ext, inj_ext_time, _ = self.ext_patterns()
+        inj_ext, inj_ext_time, ext_length = self.ext_patterns()
         ext_mean, ext_mean_time = np.mean(inj_ext), np.mean(inj_ext_time)
         ext_median, ext_median_time = np.median(inj_ext), np.median(inj_ext_time)
         ext_min, ext_min_time = np.min(inj_ext), np.min(inj_ext_time)
         ext_max, ext_max_time = np.max(inj_ext), np.max(inj_ext_time)
-        inj_red, inj_red_time, _ = self.red_patterns()
+        inj_red, inj_red_time, red_length = self.red_patterns()
         red_mean, red_mean_time = np.mean(inj_red), np.mean(inj_red_time)
         red_median, red_median_time = np.median(inj_red), np.median(inj_red_time)
         red_min, red_min_time = np.min(inj_red), np.min(inj_red_time)
         red_max, red_max_time = np.max(inj_red), np.max(inj_red_time)
         dict = {'Type': ext_red, 'Mean': [ext_mean, red_mean], 'Median': [ext_median, red_median],
                 'Min': [ext_min, red_min], 'Max': [ext_max, red_max],
+                'ActualLength' : [np.mean(ext_length), np.mean(red_length)],
                 'MeanTime': [ext_mean_time, red_mean_time],
                 'MedianTime': [ext_median_time, red_median_time],
                 'MinTime': [ext_min_time, red_min_time], 'MaxTime': [ext_max_time, red_max_time]}
@@ -237,3 +243,9 @@ class Interval(DataSeparator):
         dict = {'IntervalDist': dist, 'Year': length}
         df = pd.DataFrame(dict)
         return df
+
+if __name__ == "__main__":
+    obj = Interval('all', '/alextan.csv')
+    pd.set_option("display.max_rows", None, "display.max_columns", None)
+    print(obj.actual_ext_red())
+    print(obj.ext_red_results())
