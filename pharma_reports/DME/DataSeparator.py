@@ -83,6 +83,7 @@ class DataSeparator:
         lst = []
         for eye in id_list:
             pdf = df[df.id == eye]
+            pdf.reset_index(drop=True, inplace=True)
             if len(pdf) > 0:
                 if drop_drug_na:
                     pdf.dropna(subset=['Drug'], inplace=True)

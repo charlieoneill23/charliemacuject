@@ -2,6 +2,7 @@ from DataSeparator import *
 import numpy as np
 import pandas as pd
 from datetime import date
+import datetime
 import statistics
 import warnings
 warnings.filterwarnings('ignore')
@@ -244,8 +245,23 @@ class Interval(DataSeparator):
         df = pd.DataFrame(dict)
         return df
 
+    def year_cutoff(self, pdf, year):
+        pdf.reset_index(drop=True, inplace=True)
+        initiation = pdf.admission_date[0]
+        delta = datetime.timedelta(days=365*year)
+        upper = initiation + delta
+        lower = initiation + datetime.timedelta(days=365*(year-1))
+        return pdf[(pdf.admission_date <= upper) & (pdf.admission_date >= lower)]
+
+    def injection_list(self, year):
+        pdf_list = DataSeparator.patient_dataframes(self)
+        inj_list = []
+        for pdf in pdf_list:
+            pdf = self.year_cutoff(pdf, year)
+            if len(pdf) != 0: inj_list.append(len(pdf))
+        return inj_list
+
 if __name__ == "__main__":
-    obj = Interval('all', '/alextan.csv')
-    pd.set_option("display.max_rows", None, "display.max_columns", None)
-    print(obj.actual_ext_red())
-    print(obj.ext_red_results())
+    obj = Interval('all', '/ericmayer.csv')
+    inj_list = obj.injection_list(3)
+    print(np.mean(inj_list), np.median(inj_list), np.min(inj_list), np.max(inj_list))

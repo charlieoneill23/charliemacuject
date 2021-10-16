@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import os
 from datetime import date
 import statistics
+import statsmodels.stats.api as sms
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -298,25 +299,14 @@ class Vision(DataSeparator):
         df.set_index('Drug', inplace=True)
         return df
 
-class VisionTest(unittest.TestCase):
-    def setUp(self):
-        import warnings
-        warnings.filterwarnings('ignore')
-
-    def test_triangle_equality(self):
-        """
-        Testing if PVI - VLP = OVC
-        """
-        self.setUp()
-        obj = Vision('all', '/devchau.csv')
-        df = obj.results_table()
-        for i in range(len(df)):
-            a = df.iloc[i, :].PVI - df.iloc[i, :].VLP
-            b = df.iloc[i, :].OVC
-            self.assertAlmostEqual(a, b)
-
 
 if __name__ == "__main__":
     #unittest.main()
-    obj = Vision('all', '/devchau.csv')
-    print(obj.results_table())
+    obj = Vision('all', '/ericmayer.csv')
+    df = obj.get_df()
+    tpvi_list = obj.tpvi(df)
+    ci = sms.DescrStatsW(tpvi_list).tconfint_mean()
+    print(np.mean(tpvi_list), (ci[1]-ci[0])/2)
+    tpvi_injs = obj.tpvi_injs(df)
+    ci2 = sms.DescrStatsW(tpvi_injs).tconfint_mean()
+    print(np.mean(tpvi_injs), (ci2[1]-ci2[0])/2)

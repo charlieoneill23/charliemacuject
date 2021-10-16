@@ -26,7 +26,6 @@ class Utilisation(DataSeparator):
                             drugs_list.append(drug)
                         count += 1
                         i += 1
-        length = len(drugs_list)
         count_drug = drugs_list.count(drug_name)
         return count_drug
 
@@ -58,3 +57,52 @@ class Utilisation(DataSeparator):
         left_side.set_visible(False)
         top_side.set_visible(False)
         plt.savefig('ut_plot.png', dpi=300, bbox_inches='tight')
+
+    def avgf_steroids(self, num_visits, drug_name):
+        pdf_list = DataSeparator.patient_dataframes(self)
+        avgf_list = ['Lucentis', 'Avastin', 'Eylea']
+        steroid_list = ['Ozurdex', 'Triesence', 'Kenalog', 'Kenacort', 'IVTA']
+        drugs_list = []
+        for pdf in pdf_list:
+            count = 0
+            if len(pdf) > num_visits:
+                for i in range(len(pdf)):
+                    while count < num_visits:
+                        drug = pdf['Drug'].iloc[i]
+                        if drug in avgf_list:
+                            drugs_list.append('Anti-VEGF')
+                        if drug in steroid_list:
+                            drugs_list.append('Steroid')
+                        count += 1
+                        i += 1
+        count_drug = drugs_list.count(drug_name)
+        return count_drug
+
+    def all_vgf_steroid(self, visit_num, drug_name):
+        counts = []
+        for i in range(1, visit_num+1):
+            average_drug = self.avgf_steroids(i, drug_name)
+            counts.append(average_drug)
+        return counts
+
+    def plot_avgf_steroid(self):
+        w, y = self.all_vgf_steroid(100, 'Anti-VEGF'), self.all_vgf_steroid(100, 'Steroid')
+        matplotlib.rcParams['font.size'] = 18
+        x = list(range(1, 101))
+        fig = plt.figure(figsize=(12, 7))
+        ax = plt.axes()
+        ax.set(xlabel='Visit Number', ylabel='Number of Injections Using Drug')
+        ax.plot(x, w, label='Anti-VEGF', color='orange')
+        ax.plot(x, y, label='Steroid', color='#187bcd')
+        ax.legend(loc='lower left')
+        right_side = ax.spines["right"]
+        left_side = ax.spines['left']
+        top_side = ax.spines['top']
+        right_side.set_visible(False)
+        left_side.set_visible(False)
+        top_side.set_visible(False)
+        plt.savefig('ut_plot.png', dpi=300, bbox_inches='tight')
+
+if __name__ == "__main__":
+    obj = Utilisation('all', '/devchau.csv')
+    obj.plot_avgf_steroid()
